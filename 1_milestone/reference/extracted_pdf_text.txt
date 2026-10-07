@@ -1,0 +1,388 @@
+Total pages: 12
+
+=== PAGE 1 ===
+Tartalomjegyzék: 
+Leírás 
+●​
+A feladat típusának meghatározása (klasszifikáció / regresszió) 
+●​
+Az adatbázis bemutatása 
+●​
+Az adatbázis forrásának megadása 
+●​
+A jellemzők jelentésének ismertetése 
+●​
+Az adatminőség felmérése 
+●​
+Az adatok vizualizálása és megismerése 
+Beadandó 
+●​
+Dokumentáció: maximum 5 oldalas PDF 
+●​
+A dokumentáció térjen ki arra, hogy mit, miért és hogyan végeztek el. 
+Értékelés 
+●​
+A feladat helyes meghatározása: 2 pont 
+●​
+A jellemzők megfelelő bemutatása: 2 pont 
+●​
+Az adatminőség megfelelő felmérése: 2 pont 
+●​
+Megfelelő és informatív vizualizációk: 2 pont 
+●​
+A dokumentáció minősége: 2 pont 
+Összesen: 10 pont 
+ 
+ 
+1. A feladat típusa: regresszió 
+A song_popularity a célváltozó, értéke 0 és 100 közötti egész szám: 
+2. Az adatbázis legfontosabb számai 
+ 
+Tulajdonság 
+Érték 
+Sorok száma 
+18 837 
+Oszlopok száma 
+15 
+Numerikus változók 
+14 
+
+
+=== PAGE 2 ===
+Szöveges változó 
+1 (song_name) 
+Egyedi dalnevek 
+13 070 
+Hiányzó értékek 
+2 
+Teljesen duplikált sorok 
+3 909 
+Egyedi sorok duplikációk eltávolítása után 
+14 928 
+song_popularity átlaga 
+52,99 
+Medián 
+56 
+Minimum 
+0 
+Maximum 
+100 
+ 
+A változók nagy része a Spotify által használt audio feature-ökhöz kötődik. A Spotify-féle 
+jellemzők jelentése például a danceability, energy, acousticness, instrumentalness, liveness, 
+speechiness és valence esetében szabványosított.  
+3. A legérdekesebb összefüggés: a népszerűség és a 
+danceability  
+A Pearson-korrelációkat kiszámolva:  
+ 
+ 
+Jellemző 
+Korreláció 
+song_popularity-vel 
+danceability 
++0,105 
+loudness 
++0,101 
+time_signature 
++0,037 
+speechiness 
++0,022 
+energy 
++0,002 
+audio_mode 
+−0,005 
+key 
+−0,013 
+duration 
+−0,015 
+
+
+=== PAGE 3 ===
+tempo 
+−0,021 
+liveness 
+−0,038 
+audio_valence 
+−0,052 
+acousticness 
+−0,065 
+instrumentalnes
+s 
+−0,130 
+ 
+Ez önmagában nagyon jó megfigyelés: 
+A dataset alapján a népszerűség és a zenei jellemzők között általában nincs 
+erős lineáris kapcsolat. 
+A legerősebb pozitív kapcsolat a danceability, a legerősebb negatív pedig az 
+instrumentalness. 
+Viszont még ezek is gyengék. Ez azért érdekes, mert azt mutatja, hogy egy dal pusztán 
+akusztikai jellemzőiből nem lehet egyszerűen megmondani, mennyire népszerű. 
+Még érdekesebb: Spearman-korreláció 
+Spearman esetén: 
+●​ danceability: +0,102 
+●​ loudness: +0,137 
+●​ instrumentalness: −0,200 
+Az instrumentalness tehát monoton kapcsolat szempontjából valamivel erősebben kapcsolódik 
+a popularityhöz, mint Pearson alapján. 
+ 
+4. A népszerűbb dalok tényleg 
+táncolhatóbbak 
+Ha a népszerűséget kategóriákra bontjuk: 
+
+
+=== PAGE 4 ===
+Popularity Dalok száma 
+Átlagos 
+danceability 
+0–19 
+1 770 
+0,614 
+20–39 
+2 721 
+0,624 
+40–59 
+6 324 
+0,623 
+60–79 
+6 320 
+0,635 
+80–100 
+1 702 
+0,701 
+Ez szerintem az egyik legjobb ábra a beadandóba. 
+A 80–100 közötti popularity kategóriában a danceability átlagosan 0,701, míg a legkevésbé 
+népszerű kategóriában csak 0,614. 
+Tehát: 
+A nagyon népszerű dalok ebben az adathalmazban átlagosan lényegesen 
+táncolhatóbbak. 
+Ez már vizuálisan is jól bemutatható egy boxplot vagy kategóriánkénti átlagos 
+oszlopdiagram segítségével. 
+Fontos azonban, hogy ez összefüggés, nem ok-okozati kapcsolat. 
+ 
+5. A loudness is érdekes 
+Ugyanezekben a kategóriákban az átlagos loudness: 
+Popularity 
+Átlagos 
+loudness 
+0–19 
+−7,34 dB 
+20–39 
+−7,91 dB 
+40–59 
+−7,97 dB 
+60–79 
+−7,18 dB 
+
+
+=== PAGE 5 ===
+80–100 
+−5,89 dB 
+A 80–100 popularity-jű dalok tehát átlagosan jóval hangosabbak. 
+Ez szépen összecseng azzal, hogy a loudness és a popularity Pearson-korrelációja +0,101. 
+ 
+6. Nagyon érdekes: az energy önmagában 
+szinte semmit nem magyaráz 
+Az energy és song_popularity korrelációja: 
+r = 0,00194 
+Gyakorlatilag nulla. 
+Ez azért érdekes, mert az energy és loudness között viszont: 
+r = 0,755 
+Tehát: 
+energy ↔ loudness: erős kapcsolat​
+ energy ↔ popularity: gyakorlatilag nincs kapcsolat 
+Ez jó példa arra, hogy egy változó és egy másik változó közötti erős kapcsolat nem jelenti 
+azt, hogy bármelyikük önmagában erősen összefügg a célváltozóval. 
+ 
+7. Az acousticness és energy kapcsolata 
+Egy másik nagyon látványos összefüggés: 
+acousticness ↔ energy: r = −0,662 
+Vagyis az akusztikusabb számok általában kevésbé energikusak ebben az adathalmazban. 
+Ugyanakkor: 
+
+
+=== PAGE 6 ===
+acousticness ↔ song_popularity: r = −0,065 
+Ez megint azt mutatja, hogy egy nagyon jól látható zenei kapcsolatból nem következik erős 
+popularity-kapcsolat. 
+ 
+8. A legnagyobb adatminőségi probléma: 
+rengeteg duplikáció 
+Ez szerintem kötelező elem a beadandóban. 
+A 18 837 sorból: 
+3 909 sor teljesen azonos egy másik sorral. 
+Ez: 
+20,8% 
+Tehát az adatállomány több mint ötöde teljesen duplikált. 
+Ha eltávolítjuk ezeket: 
+18 837 → 14 928 sor 
+Ez önmagában nagyon fontos adatminőségi megállapítás. 
+És van még egy érdekes következménye 
+Az eredeti adatokban: 
+●​ danceability ↔ popularity: 0,105 
+●​ instrumentalness ↔ popularity: −0,130 
+Duplikációk eltávolítása után: 
+●​ danceability ↔ popularity: 0,057 
+●​ instrumentalness ↔ popularity: −0,092 
+Vagyis a duplikációk észrevehetően felerősítik az összefüggéseket. 
+Ez már nagyon jó ML-es megfigyelés: 
+
+
+=== PAGE 7 ===
+A duplikált megfigyelések miatt a modell és a statisztikai elemzés bizonyos 
+mintázatokat a valóságosnál erősebbnek érzékelhet. 
+Ezt én mindenképpen belevenném a dokumentációba. 
+ 
+9. A song_name nem egyedi azonosító 
+13 070 különböző név van, miközben 18 835 sorban van név. 
+Például: 
+●​ Better – 21 alkalommal 
+●​ FEFE – 19 
+●​ Taki Taki – 18 
+●​ MIA – 18 
+●​ No Stylist – 17 
+Ez azt jelenti, hogy: 
+A song_name nem használható megbízhatóan egyedi dalazonosítóként. 
+És van egy még érdekesebb jelenség. 
+A Better cím például több különböző popularity értékkel is szerepel: 
+21 rekord, popularity értékek között 1–95 is előfordul. 
+Ez valószínűleg különböző felvételek/verziók vagy forrásbeli ismétlődések jelenlétére utalhat, 
+ezért a név önmagában nem elegendő az azonosításhoz. 
+ 
+10. Két hiányzó song_name van 
+Ez különösen érdekes, mert csak a song_name oszlopban van hiányzó adat. 
+Összes hiányzó: 
+2 / 18 837 = 0,011% 
+
+
+=== PAGE 8 ===
+Tehát a hiányzó adatok mennyisége összességében nagyon kicsi. 
+Viszont a két sor: 
+popularity 
+duration 
+0 
+1 799 346 
+ms 
+100 
+1 799 346 
+ms 
+Ez érdekes, mert ugyanahhoz a rendkívül hosszú, kb. 30 perces időtartamhoz két szélsőséges 
+popularity érték tartozik. 
+Az egyik hiányzó nevű rekord tehát: 
+●​ popularity = 0 
+●​ duration ≈ 30 perc 
+a másik: 
+●​ popularity = 100 
+●​ duration ≈ 30 perc 
+Ez adatminőségi szempontból mindenképpen említésre méltó. 
+ 
+11. Vannak nagyon furcsa hosszúságú 
+"dalok" 
+A song_duration_ms: 
+●​ minimum: 12 000 ms 
+●​ medián: 211 306 ms 
+●​ maximum: 1 799 346 ms 
+Vagyis: 
+12 másodperc → közel 30 perc 
+A legnagyobb értékek között például szerepel: 
+
+
+=== PAGE 9 ===
+●​ Army Arrangement – 1 799 346 ms 
+●​ Play – 1 355 938 ms 
+●​ 2112: Overture / The Temples Of Syrinx / Disco... – 1 233 666 ms 
+●​ I Have a Dream - The Complete Speech – 1 047 933 ms 
+●​ Autobahn - 3-D – 866 889 ms 
+Ez azt sugallja, hogy az adatbázis nem feltétlenül csak klasszikus, néhány perces popdalokat 
+tartalmaz, hanem hosszú zenei műveket, beszédfelvételeket és egyéb audioanyagokat is. 
+Ez azért fontos, mert a song_name elnevezés kissé félrevezető lehet. 
+ 
+12. A popularity eloszlása 
+A popularity: 
+●​ átlag: 52,99 
+●​ medián: 56 
+●​ szórás: 21,91 
+●​ minimum: 0 
+●​ maximum: 100 
+●​ 0 érték: 273 
+●​ 100 érték: 13 
+A medián magasabb az átlagnál, ami összhangban van azzal, hogy az eloszlás kissé balra 
+ferde. 
+A legtöbb adat: 
+40–79 közé esik. 
+Ezért egy egyszerű histogram nagyon jól bemutatná a célváltozó eloszlását. 
+ 
+13. Az audio_mode szinte semmit nem 
+számít 
+Az audio_mode: 
+
+
+=== PAGE 10 ===
+●​ 0 = minor 
+●​ 1 = major 
+A datasetben: 
+●​ major: 11 832 (62,8%) 
+●​ minor: 7 005 (37,2%) 
+A popularity átlaga: 
+●​ minor: 53,13 
+●​ major: 52,91 
+Gyakorlatilag ugyanaz. 
+Ez egy jó negatív eredmény: 
+Ebben az adathalmazban a major/minor mód nem mutat érdemi kapcsolatot a 
+népszerűséggel. 
+ 
+14. A 4/4-es ütem dominál 
+A time_signature eloszlása: 
+Ütemmutató Darabszám 
+Arány 
+4 
+17 754 
+94,25% 
+3 
+772 
+4,10% 
+5 
+234 
+1,24% 
+1 
+73 
+0,39% 
+0 
+4 
+0,02% 
+Ez önmagában is nagyon jó vizualizációs lehetőség. 
+A dataset tehát rendkívül erősen 4/4-domináns. 
+ 
+
+
+=== PAGE 11 ===
+15. A tempo meglepően kevéssé 
+kapcsolódik a popularityhöz 
+A tempo és popularity korrelációja: 
+−0,021 
+Gyakorlatilag nincs lineáris kapcsolat. 
+Ez érdekes, mert intuitívan gondolhatnánk, hogy a gyorsabb, táncolhatóbb zenék 
+népszerűbbek. A dataset alapján azonban a tempo önmagában nem jó indikátora a 
+popularitynek. 
+A danceability viszont valamennyire összefügg a popularityvel. 
+Ez két jó változó összehasonlítása lehet egy scatterplot-párban: 
+●​ tempo vs. song_popularity 
+●​ danceability vs. song_popularity 
+ 
+16. Instrumentalness – az egyik legjobb 
+jelölt 
+Az instrumentalness popularity-korrelációja: 
+−0,130 Pearson 
+−0,200 Spearman 
+Ráadásul az instrumentalness nagyon szélsőséges eloszlású: 
+●​ medián: 0,000011 
+75.​percentilis: 0,00257 
+●​ maximum: 0,997 
+Tehát a datasetben rengeteg olyan dal van, amelynek instrumentalness értéke 
+gyakorlatilag nulla, miközben néhány szám nagyon magas értéket kap. 
+Ezért ezt nem biztos, hogy sima scatterplottal érdemes bemutatni. Jobb lehet például: 
+
+
+=== PAGE 12 ===
+instrumentalness log-skálás histogram, vagy popularity-kategóriák szerinti boxplot. 
+
+
