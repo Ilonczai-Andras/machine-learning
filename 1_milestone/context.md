@@ -35,10 +35,11 @@ Ez a dokumentum összefoglalja a projekt aktuális állapotát, az 1. mérföldk
 ## 3. Könyvtárstruktúra és Fájlok Szerepe
 
 ```text
-H:\machine learning\
-├── context.md                                  # Ez a projektösszefoglaló fájl
+D:\machine-learning\
+├── sablon_merfoldko_dokumentacio.md            # Univerzális 5 oldalas Markdown sablon a mérföldkövekhez
 └── 1_milestone/
-    ├── 1_merfoldko_dokumentacio.md             # Végleges, 5 oldalra kalibrált Markdown forrás
+    ├── context.md                              # Ez a projekt- és mérföldkő-összefoglaló fájl
+    ├── 1_merfoldko_dokumentacio.md             # Végleges, 5 oldalra kalibrált Markdown forrás (10pt, 1.4 sorköz)
     ├── 1_merfoldko_dokumentacio_5oldal.pdf     # Végleges, ellenőrzött 5 oldalas kész PDF beadandó
     ├── data/
     │   └── song_data.csv                       # A projekt nyers adathalmaza (18 835 sor)
@@ -53,7 +54,7 @@ H:\machine learning\
     │   ├── verify_milestone.py                 # Tételes ellenőrző szkript (1-16. állítás vizsgálata)
     │   ├── generate_dashboard.py               # A 2x2-es EDA dashboard ábrát generáló kód
     │   ├── generate_figures.py                 # Az egyedi ábrákat generáló kód
-    │   ├── compile_pdf.py                      # Chrome headless-szel 5 oldalas PDF-et készítő fordító
+    │   ├── compile_pdf.py                      # Chrome/Edge headless-szel 5 oldalas PDF-et készítő fordító
     │   └── calc_stats.py                       # Leíró statisztikákat számító segédszkript
     └── reference/
         ├── Gépitan 1. mérföldkő dokumentáció.pdf # Az eredeti kiadott feladatleírás / piszkozat
@@ -64,12 +65,12 @@ H:\machine learning\
 
 ## 4. Dokumentáció és PDF Renderelési Tudnivalók
 * **A pontosan 5 oldal biztosítása:**
-  * A Markdown fájl elején be van állítva a Puppeteer front-matter és egy szigorúan méretezett nyomtatási CSS (`A4`, `8mm 10mm` margók, `8.5pt` betűméret, kompakt táblázatok, `220px` max képmagasság).
+  * A Markdown fájl elején be van állítva a Puppeteer front-matter és a kalibrált nyomtatási CSS (`A4`, `10mm 11mm` margók, `10pt` főszöveg, `8.8pt` táblázat, `1.4` sorköz, `275px` max képmagasság).
   * Mind az 5 oldal végén `<div class="page-break"></div>` oldaltörés található.
-* **PDF újragenerálása parancssorból:**
+* **PDF generálása parancssorból:**
   ```powershell
   python 1_milestone/scripts/compile_pdf.py
   ```
-  Ez a parancs a Chrome headless nyomtatójával azonnal legenerálja az 5 oldalas `1_milestone/1_merfoldko_dokumentacio_5oldal.pdf` fájlt, és a terminálon ellenőrzi az oldalszámot.
+  A szkript automatikusan felismeri a rendszerszintű Chromium böngészőt (Microsoft Edge / Google Chrome), legenerálja az 5 oldalas `1_milestone/1_merfoldko_dokumentacio_5oldal.pdf` fájlt, és a terminálon ellenőrzi az oldalszámot és az elrendezést.
 
 ---
