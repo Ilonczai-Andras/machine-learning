@@ -126,16 +126,8 @@ puppeteer:
 <!-- ========================================================================================= -->
 
 # Gépi Tanulás – 1. Mérföldkő Dokumentáció
-## Spotify Dalnépszerűség Előrejelzése (Song Popularity Prediction)
 
-<div class="header-box">
-  <strong>Projekt:</strong> Spotify Song Popularity Pipeline &nbsp;|&nbsp; 
-  <strong>Szerzők:</strong> Adattudományi Munkacsoport &nbsp;|&nbsp; 
-  <strong>Dátum:</strong> 2026. október &nbsp;|&nbsp; 
-  <strong>Terjedelem:</strong> 5 oldal (1. oldal / 5)
-</div>
-
-### 1.1. A Feladat Típusának Meghatározása: Regresszió
+### 1.1. A Feladat típusának meghatározása: regresszió
 A projekt célja zenei művek streaming-népszerűségének automatikus előrejelzése akusztikai és zenei jellemzőik alapján.
 
 * **Célváltozó:** `song_popularity` (egész számok a [0, 100] zárt intervallumon).
@@ -147,14 +139,14 @@ A projekt célja zenei művek streaming-népszerűségének automatikus előreje
 2. **Kvantitatív hibaértelmezés:** A predikció hibájának arányosnak kell lennie az eltérés mértékével. Ha a valós népszerűség 80, a 78-as becslés marginális eltérés, míg a 20-as súlyos modellhiba. Osztályozásnál e távolsági rangsor teljesen elveszne.
 3. **Információvesztés elkerülése:** Bár létrehozható lenne bináris kategória (pl. ≥ 65 → *Sláger*), ez mesterséges diszkretizációt képezne, és a döntési határvonal mentén (pl. 64 vs. 65 pont) indokolatlan hibaugrást eredményezne. Emiatt a feladatot egyértelműen **regressziós feladatként** definiáljuk.
 
-### 1.2. Az Adatbázis Forrása és Méretei
+### 1.2. Az adatbázis forrása és méretei
 
 * **Adatforrás:** Kaggle – *Song Popularity Dataset* (CC0 Public Domain), közvetlenül a **Spotify Web API** (`/v1/audio-features` és `/v1/tracks`) lekérdezéseiből összeállítva.
 * **Méret és teljesség:** **18 835 megfigyelés (sor)** és **15 attribútum (oszlop)**; **0 db hiányzó érték** (100.0% épség); **13 070 egyedi dalcím**.
 * **Duplikációk:** **3 909 teljes duplikált sor (20.75%)**, melyek eltávolítása után **14 926 egyedi rekord** marad az elemzéshez.
 * **Célváltozó statisztikái:** Átlag: **52.99**, Medián: **56.00**, Szórás: **21.91**, Min: **0**, Max: **100**.
 
-### 1.3. A Numerikus Változók Leíró Statisztikai Összefoglalója
+### 1.3. A numerikus változók leíró statisztikai összefoglalója
 
 | Jellemző | Típus | Min | Q25 | Medián | Q75 | Max | Átlag (μ) | Szórás (σ) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -179,9 +171,9 @@ A projekt célja zenei művek streaming-népszerűségének automatikus előreje
 <!-- 2. OLDAL: A JELLEMZŐK RÉSZLETES BEMUTATÁSA ÉS ZENEI MEGFELELŐI -->
 <!-- ========================================================================================= -->
 
-## 2. Oldal: A Jellemzők (Audio Features) Részletes Ismertetése
+## A jellemzők (Audio Features) részletes ismertetése
 
-### 2.1. A Változók Katalógusa és Technikai Értelmezése
+### 2.1. A változók katalógusa és technikai értelmezése
 
 | Jellemző | Típus és Skála | Mérnöki / Zenei Jelentés és Eloszlási Sajátosság |
 | :--- | :---: | :--- |
@@ -201,7 +193,7 @@ A projekt célja zenei művek streaming-népszerűségének automatikus előreje
 | **`time_signature`**| int [0, 5] | Ütemmutató. Erősen 4/4 domináns (94.26%), ritka a 3/4 (4.10%) és az 5/4 (1.24%). |
 | **`audio_valence`** | float [0.0, 1.0] | Zenei hangulat és pozitivitás (1.0 = vidám/euforikus; 0.0 = melankolikus/szomorú). |
 
-### 2.2. Változók Közötti Erős Korrelációk és Multikollinearitás
+### 2.2. Változók közötti erős korrelációk és multikollinearitás
 
 A jellemzők páronkénti Pearson-korrelációs vizsgálata markáns interakciókat tár fel az akusztikai változók között:
 
@@ -210,7 +202,7 @@ A jellemzők páronkénti Pearson-korrelációs vizsgálata markáns interakció
 * **`acousticness` ↔ `loudness` (r = -0.5577):** Az akusztikus darabok átlagos hangereje jelentősen elmarad a modern többsávos stúdiópopétól.
 * **`danceability` ↔ `audio_valence` (r = +0.3320):** A ritmikusabb, táncolhatóbb felvételek hajlamosabbak pozitívabb érzelmi tónust hordozni.
 
-**Modellezési konzekvencia:** A standard lineáris regresszió (OLS) bizonytalanná és instabillá válhat az `energy` és `loudness` közötti erős multikollinearitás miatt. Emiatt regularizáció (Ridge, ElasticNet), valamint a jellemzők nem-lineáris kapcsolatait robusztusan kezelő döntési fa-alapú modellek (Random Forest, LightGBM) bevonása feltétlenül szükséges.
+**Modellezési konzekvencia:** A standard lineáris regresszió (OLS) bizonytalanná és instabillá válhat az `energy` és `loudness` közötti erős multikollinearitás miatt.
 
 <div class="page-break"></div>
 
@@ -218,9 +210,9 @@ A jellemzők páronkénti Pearson-korrelációs vizsgálata markáns interakció
 <!-- 3. OLDAL: ADATMINŐSÉG, DUPLIKÁCIÓK ÉS ANOMÁLIÁK AUDITJA -->
 <!-- ========================================================================================= -->
 
-## 3. Oldal: Adatminőség-felmérés és Anomália-Audit
+## Adatminőség-felmérés és anomália-audit
 
-### 3.1. Hiányzó Értékek Auditja: Teljes Épség
+### 3.1. Hiányzó értékek auditja: teljes épség
 Az adatbázis teljességének vizsgálata megállapította, hogy a táblázatban **egyetlen hiányzó érték (NaN / Null) sem található**:
 
 <div class="formula-box">
@@ -229,11 +221,13 @@ Az adatbázis teljességének vizsgálata megállapította, hogy a táblázatban
 
 A táblázat strukturálisan teljesen hiánytalan, így nincs szükség törléses vagy imputációs eljárásra hiányzó adatok miatt.
 
-### 3.2. A Fő Adatminőségi Kockázat: Tömeges Duplikációk
+### 3.2. A fő adatminőségi kockázat: tömeges duplikációk
 A nyers adathalmazban **3 909 sor (20.75%)** minden oszlopában teljes mértékben azonos egy másik sorral.
 
-**A Duplikációk Koncentrációja (Sláger-torzítás):**  
-A duplikációk nem véletlenszerűen oszlanak el, hanem szinte kizárólag a kiugróan népszerű, globális popslágereknél halmozódnak fel:
+**A duplikációk koncentrációja (Sláger-torzítás):**  
+A nyers adathalmazban 3 909 sor (20.75%) minden oszlopában teljes mértékben azonos egy másik sorral.
+A duplikációk nem véletlenszerűen oszlanak el, hanem szinte kizárólag a kiugróan népszerű, globális popslágereknél
+halmozódnak fel:
 
 | Dalcím és Előadó (`song_name`) | Népszerűség | Duplikátumok Száma |
 | :--- | :---: | :---: |
@@ -244,7 +238,7 @@ A duplikációk nem véletlenszerűen oszlanak el, hanem szinte kizárólag a ki
 | `Promises (with Sam Smith)` | 98 | **16 darab teljesen azonos sor** |
 | `I Love It (& Lil Pump)` | 99 | **16 darab teljesen azonos sor** |
 
-**A Duplikációk Statisztikai és Modellezési Következményei:**
+**A duplikációk statisztikai és modellezési következményei:**
 
 1. **Mesterségesen eltolt átlag:** Az eredeti adathalmazban a célváltozó átlaga **52.99**, míg a duplikációk eltávolítása után **48.75**-re módosul (több mint 4.2 pont esés).
 2. **Felfújt korrelációk (Pseudo-összefüggések):** Mivel a duplikált slágerek mind agresszíven táncolható, hangos dalok, a duplikációk **megduplázták a látszólagos összefüggéseket**:
@@ -253,7 +247,7 @@ A duplikációk nem véletlenszerűen oszlanak el, hanem szinte kizárólag a ki
 3. **Adatszivárgás (Data Leakage):** Ha a duplikációk kiszűrése nélkül végeznénk Train/Test felosztást, azonos sorok kerülnének mindkét halmazba, ami mesterségesen túlillesztett mérőszámokat eredményezne.
 4. **Módszertani Döntés:** A gépi tanulás előtt a duplikált sorok kiszűrése (`drop_duplicates()`) kötelező; így az effektív mintaméret **14 926 egyedi rekordra** áll be.
 
-### 3.3. Dalcímek Nem-egyedisége és Technikai Anomáliák
+### 3.3. Dalcímek nem-egyedisége és technikai anomáliák
 
 * **Dalcímek redundanciája:** 13 070 egyedi cím jut 18 835 sorra. Például a *"Better"* cím **21 alkalommal** szerepel (népszerűsége 1 és 95 pont között szóródik). A `song_name` így nem használható kulcsként vagy bemeneti változóként.
 * **Extrém időtartamok:** A minimális hossz 12 másodperc (intrók), a leghosszabb felvétel közel 30 perc (Fela Kuti: *"Army Arrangement"* – 1 799 346 ms, népszerűség: 23). Emellett megjelennek beszédek (Martin Luther King beszéde – 17.5 perc) és rock-medley-k (Rush – 20.5 perc).
@@ -265,14 +259,14 @@ A duplikációk nem véletlenszerűen oszlanak el, hanem szinte kizárólag a ki
 <!-- 4. OLDAL: FELTÁRÓ ADATELEMZÉS (EDA) ÉS VIZUALIZÁCIÓK -->
 <!-- ========================================================================================= -->
 
-## 4. Oldal: Feltáró Adatelemzés (EDA) és Vizualizációk
+## Feltáró adatelemzés (EDA) és vizualizációk
 
 ![EDA Összefoglaló Dashboard](figures/dashboard_eda_summary.png)
 
-### 4.1. A Célváltozó Eloszlása és a Slágertorzulás (A Panel)
+### 4.1. A célváltozó eloszlása és a slágertorzulás (A Panel)
 A `song_popularity` eloszlása unimodális, de enyhén balra ferde (ferdeség / Skewness = -0.50). A megfigyelések zöme a [40, 75] sávban helyezkedik el (medián: 56 pont). A skála szélein torlódás látható: 0 népszerűségű dalból **272 db**, 100 pontszámúból **12 db** van. Az **(A)** panelen látható a duplikátumok torzító hatása: a zölddel jelölt nyers eloszlásban a 80–100-as tartományban mesterséges púp képződött, ami a szűrés után (fekete görbe) elsimul, és az átlag 52.99-ről 48.75-re áll be.
 
-### 4.2. Korrelációk a Népszerűséggel és Multikollinearitás (B Panel)
+### 4.2. Korrelációk a népszerűséggel és multikollinearitás (B Panel)
 A zenei jellemzők és a népszerűség közötti globális lineáris kapcsolat meglepően gyenge:
 
 * **`instrumentalness` (r = -0.131, Spearman: -0.201):** Legerősebb negatív kapcsolat; a hangszeres művek ritkán válnak mainstream popslágerré.
@@ -280,10 +274,10 @@ A zenei jellemzők és a népszerűség közötti globális lineáris kapcsolat 
 * **`loudness` (r = +0.099, Spearman: +0.137):** A hangosabb mastering enyhe versenyelőnyt jelent.
 * **`energy` (r = +0.001):** Gyakorlatilag 0 kapcsolat; önmagában az energiaszint nem determinálja a sikert.
 
-### 4.3. Kategóriánkénti Nem-lineáris Ugrás: Danceability és Loudness (C Panel)
+### 4.3. Kategóriánkénti nem-lineáris ugrás: Danceability és loudness (C Panel)
 A népszerűségi kvintilisek vizsgálata **(C panel)** kritikus nem-lineáris mintázatot tár fel: a 0–79 pont közötti sávban a táncolhatóság stabilan 0.61 – 0.63 között stagnál, ám a **80–100-as csúcsslágereknél hirtelen 0.701-re ugrik**. Ugyanez a lépcsőzetes ugrás érvényesül a hangerőnél: a kevésbé népszerű sávok -7.9 dB-es átlagához képest a csúcsslágerek **-5.89 dB** átlagot érnek el (átlagosan 2 dB-lel hangosabbak).
 
-### 4.4. A Duplikációk Torzításának Hatása a Változókra (D Panel)
+### 4.4. A Duplikációk torzításának hatása a változókra (D Panel)
 A **(D)** panel számszerűsíti, hogy a duplikációk kiszűrése után a zenei paraméterek magyarázóereje még tovább feleződik (a táncolhatóság korrelációja 0.104-ről 0.056-ra csökken). Ez igazolja, hogy a modellezés nem építhet egyszerű lineáris regresszióra.
 
 <div class="page-break"></div>
@@ -292,9 +286,9 @@ A **(D)** panel számszerűsíti, hogy a duplikációk kiszűrése után a zenei
 <!-- 5. OLDAL: MÓDSZERTAN, GÉPI TANULÁSI ELŐKÉSZÍTÉS ÉS STRATÉGIA -->
 <!-- ========================================================================================= -->
 
-## 5. Oldal: Módszertan, Előfeldolgozás és Modellezési Stratégia
+## Módszertan, előfeldolgozás és modellezési stratégia
 
-### 5.1. Mit, Miért és Hogyan Végeztünk El? (Módszertani Döntési Mátrix)
+### 5.1. Mit, miért és hogyan végeztünk el? (Módszertani döntési mátrix)
 
 | Tevékenység (Mit?) | Módszer / Implementáció (Hogyan?) | Szakmai Indoklás (Miért?) |
 | :--- | :--- | :--- |
@@ -303,12 +297,7 @@ A **(D)** panel számszerűsíti, hogy a duplikációk kiszűrése után a zenei
 | **Anomáliák Kezelése** | `time_signature == 0`, `tempo == 0` medián imputációja. | A zeneileg nonszensz értékek zavarnák a gradiens-alapú modelleket. |
 | **Identifikáció Tisztítása**| `song_name` kizárása a prediktorok közül. | Nem egyedi azonosító, túlillesztést okozna a magas kardinalitás miatt. |
 
-### 5.2. Jellemző-transzformációk (Feature Engineering)
-1. **Logaritmikus transzformáció:** Az erősen jobbra ferde változók (`instrumentalness` ferdeség: +2.99, `speechiness`: +2.27, `song_duration_ms`: +3.26) esetében log(1 + x) transzformáció szükséges az eloszlások normalizálására.
-2. **Kategoriális Kódolás:** A `key` (0–11) és a `time_signature` nominális változók, így One-Hot kódolással alakítandók bináris indikátorokká.
-3. **Skálázás:** Mivel a hangjellemzők nagyságrendje eltérő (dB, BPM, ms, [0,1]), a regularizált modellekhez `StandardScaler` vagy `RobustScaler` normalizálást alkalmazunk.
-
-### 5.3. Modellezési Architektúra és Algoritmusválasztás
+### 5.2. Modellezési architektúra és algoritmusválasztás
 Mivel a célváltozó és a zenei jellemzők közötti globális lineáris kapcsolat gyenge (|r| ≤ 0.13), az egyszerű lineáris regresszió várhatóan alacsony magyarázó erejű (R² < 0.05) lesz. Emiatt többlépcsős architektúrát építünk fel:
 
 ```text
@@ -323,7 +312,7 @@ Mivel a célváltozó és a zenei jellemzők közötti globális lineáris kapcs
     * **Random Forest Regressor:** Képes felderíteni a küszöbérték-szerű mintázatokat (pl. magas siker csak kiugró táncolhatóság mellett).
     * **LightGBM / XGBoost Regressor:** Gyors, grádiens alapú döntési fa együttes, amely kiválóan kezeli a ferde eloszlásokat és a komplex interakciókat.
 
-### 5.4. Validációs Keretrendszer és Értékelési Metrikák
+### 5.3. Validációs keretrendszer és értékelési metrikák
 
 * **Keresztvalidáció:** **5-Fold Cross-Validation** a tiszta, dedublikált adathalmazon (N = 14 926).
 * **Értékelési Metrikák:**
@@ -331,5 +320,5 @@ Mivel a célváltozó és a zenei jellemzők közötti globális lineáris kapcs
     * **MAE (Mean Absolute Error):** Közvetlenül pontszámban értelmezhető átlagos abszolút tévedés.
     * **R² (Determinációs együttható):** A variancia magyarázott hányada a baseline-hoz képest.
 
-### 5.5. Záró Összegzés és Tanulságok
-Az 1. mérföldkő elemzése bebizonyította, hogy a dalok akusztikai profilja önmagában nem predesztinálja a népszerűséget: a táncolhatóság és a hangerő szükséges, de nem elégséges feltétele a sikernek (marketing és playlist-elhelyezés nélkül). Ugyanakkor kimutatható egy egyértelmű "sláger-profil": a 80 feletti népszerűségű számok szignifikánsan táncolhatóbbak és hangosabbak az átlagnál. A 2. mérföldkőben ezen komplex, nem-lineáris összefüggések megragadása lesz a gépi tanulási modellezés fókuszában.
+### 5.4. Záró összegzés és tanulságok
+Az 1. mérföldkő elemzése bebizonyította, hogy a dalok akusztikai profilja önmagában nem predesztinálja a népszerűséget: a táncolhatóság és a hangerő szükséges, de nem elégséges feltétele a sikernek (marketing és playlist-elhelyezés nélkül). Ugyanakkor kimutatható egy egyértelmű "sláger-profil": a 80 feletti népszerűségű számok szignifikánsan táncolhatóbbak és hangosabbak az átlagnál.
