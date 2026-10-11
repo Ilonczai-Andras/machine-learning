@@ -242,8 +242,8 @@ halmozódnak fel:
 
 1. **Mesterségesen eltolt átlag:** Az eredeti adathalmazban a célváltozó átlaga **52.99**, míg a duplikációk eltávolítása után **48.75**-re módosul (több mint 4.2 pont esés).
 2. **Felfújt korrelációk (Pseudo-összefüggések):** Mivel a duplikált slágerek mind agresszíven táncolható, hangos dalok, a duplikációk **megduplázták a látszólagos összefüggéseket**:
-    * `corr(danceability, popularity)`: nyers adaton **+0.104** → dedublikálás után mindössze **+0.056**!
-    * `corr(instrumentalness, popularity)`: nyers adaton **-0.131** → dedublikálás után **-0.093**.
+    * `corr(danceability, popularity)`: nyers adaton **+0.104** → deduplikálás után mindössze **+0.056**!
+    * `corr(instrumentalness, popularity)`: nyers adaton **-0.131** → deduplikálás után **-0.093**.
 3. **Adatszivárgás (Data Leakage):** Ha a duplikációk kiszűrése nélkül végeznénk Train/Test felosztást, azonos sorok kerülnének mindkét halmazba, ami mesterségesen túlillesztett mérőszámokat eredményezne.
 4. **Módszertani Döntés:** A gépi tanulás előtt a duplikált sorok kiszűrése (`drop_duplicates()`) kötelező; így az effektív mintaméret **14 926 egyedi rekordra** áll be.
 
@@ -314,7 +314,7 @@ Mivel a célváltozó és a zenei jellemzők közötti globális lineáris kapcs
 
 ### 5.3. Validációs keretrendszer és értékelési metrikák
 
-* **Keresztvalidáció:** **5-Fold Cross-Validation** a tiszta, dedublikált adathalmazon (N = 14 926).
+* **Keresztvalidáció:** **5-Fold Cross-Validation** a tiszta, deduplikált adathalmazon (N = 14 926).
 * **Értékelési Metrikák:**
     * **RMSE (Root Mean Squared Error):** Szigorúan bünteti a nagy hibákat (pl. slágerek alulbecslését).
     * **MAE (Mean Absolute Error):** Közvetlenül pontszámban értelmezhető átlagos abszolút tévedés.
